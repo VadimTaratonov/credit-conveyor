@@ -1,0 +1,11 @@
+server:
+    port: 8080
+base:
+    rate: 8
+insurance:
+    percentage: 10
+    rate:
+        reduction: 3
+salary:
+    rate:
+        reduction: 1
