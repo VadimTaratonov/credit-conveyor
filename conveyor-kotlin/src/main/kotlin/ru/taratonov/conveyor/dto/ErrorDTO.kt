@@ -14,19 +14,19 @@ data class ErrorDTO(
         name = "msg",
         example = "term must be greater or equal than 6"
     )
-     val msg: String,
+     val msg: String? = null,
 
     @field:Schema(
         description = "time of error",
         name = "errorTime",
         example = "2023-08-10T12:31:43.1545756"
     )
-     val errorTime: LocalDateTime,
+     val errorTime: LocalDateTime? = null,
 
     @field:Schema(
         description = "http status of error",
         name = "httpStatus",
         example = "BAD_REQUEST"
     )
-     val httpStatus: HttpStatus
+     val httpStatus: HttpStatus? = null
 )

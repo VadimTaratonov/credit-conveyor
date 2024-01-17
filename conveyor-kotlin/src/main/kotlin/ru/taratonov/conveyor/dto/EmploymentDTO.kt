@@ -17,7 +17,7 @@ data class EmploymentDTO(
         name = "employmentStatus",
         example = "SELF_EMPLOYED"
     )
-     val employmentStatus: EmploymentStatus,
+     val employmentStatus: EmploymentStatus? = null,
 
     @field:Schema(
         description = "persons inn",
@@ -28,7 +28,7 @@ data class EmploymentDTO(
         regexp = "^(\\d{10}|\\d{12})$",
         message = "must include only 12 numbers for individuals and 10 to legal entities"
     )
-     val employerINN: String,
+     val employerINN: String? = null,
 
     @field:Schema(
         description = "persons salary",
@@ -36,14 +36,14 @@ data class EmploymentDTO(
         example = "12000"
     )
     @field:Min(value = 0, message = "can't be less than 0")
-     val salary: BigDecimal,
+     val salary: BigDecimal? = null,
 
     @field:Schema(
         description = "the user's position on the job",
         name = "position",
         example = "MANAGER"
     )
-     val position: Position,
+     val position: Position? = null,
 
     @field:Schema(
         description = "total work experience of person",
@@ -51,7 +51,7 @@ data class EmploymentDTO(
         example = "12"
     )
     @field:Min(value = 0)
-     val workExperienceTotal: Int,
+     val workExperienceTotal: Int? = null,
 
     @field:Schema(
         description = "current work experience of person in job",
@@ -59,5 +59,5 @@ data class EmploymentDTO(
         example = "5"
     )
     @field:Min(value = 0)
-     val workExperienceCurrent: Int
+     val workExperienceCurrent: Int? = null
 )

@@ -13,53 +13,53 @@ data class CreditDTO(
         name = "amount",
         example = "10000"
     )
-    val amount: BigDecimal,
+    val amount: BigDecimal? = null,
 
     @field:Schema(
         description = "loan term",
         name = "term",
         example = "7"
     )
-    val term: Int,
+    val term: Int? = null,
 
     @field:Schema(
         description = "monthly payment of the loan",
         name = "monthlyPayment",
         example = "1245.67"
     )
-    val monthlyPayment: BigDecimal,
+    val monthlyPayment: BigDecimal? = null,
 
     @field:Schema(
         description = "loan rate",
         name = "rate",
         example = "3"
     )
-    val rate: BigDecimal,
+    val rate: BigDecimal? = null,
 
     @field:Schema(
         description = "full cost of the loan",
         name = "psk",
         example = "2.56"
     )
-    val psk: BigDecimal,
+    val psk: BigDecimal? = null,
 
     @field:Schema(
         description = "availability of credit insurance",
         name = "isInsuranceEnabled",
         example = "false"
     )
-    val isInsuranceEnabled: Boolean,
+    val isInsuranceEnabled: Boolean? = null,
 
     @field:Schema(
         description = "salary client",
         name = "isSalaryClient",
         example = "true"
     )
-    val isSalaryClient: Boolean,
+    val isSalaryClient: Boolean? = null,
 
     @field:Schema(
         description = "list of payments",
         name = "paymentSchedule"
     )
-    val paymentSchedule: List<PaymentScheduleElement>
+    val paymentSchedule: List<PaymentScheduleElement>? = null
 )

@@ -1,14 +1,17 @@
 package ru.taratonov.conveyor.service
 
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import ru.taratonov.conveyor.dto.LoanApplicationRequestDTO
 import ru.taratonov.conveyor.dto.LoanOfferDTO
+import ru.taratonov.conveyor.util.error
 
 @Service
 class OfferServiceImpl(
     private val creditCalculationService: CreditCalculationService,
-    private val scoringService: ScoringService
+    private val scoringService: ScoringService,
+    @Value("\${text.nonNull}") private val NON_VALUE: String
 ) : OfferService {
 
     private val logger = KotlinLogging.logger { }
@@ -33,8 +36,8 @@ class OfferServiceImpl(
             loanApplicationRequest.firstName, isInsuranceEnabled, isSalaryClient
         )
 
-        val amount = loanApplicationRequest.amount
-        val term = loanApplicationRequest.term
+        val amount = loanApplicationRequest.amount ?: error(NON_VALUE)
+        val term = loanApplicationRequest.term ?: error(NON_VALUE)
         val rate = scoringService.scoringPerson(isInsuranceEnabled, isSalaryClient)
         val totalAmount = creditCalculationService.calculateTotalAmount(amount, isInsuranceEnabled)
 

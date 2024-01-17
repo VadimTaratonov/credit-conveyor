@@ -14,40 +14,40 @@ data class PaymentScheduleElement(
         name = "number",
         example = "1"
     )
-    val number: Int,
+    val number: Int? = null,
 
     @field:Schema(
         description = "payment date",
         name = "date",
         example = "2023-12-11"
     )
-    val date: LocalDate,
+    val date: LocalDate? = null,
 
     @field:Schema(
         description = "the full amount of the monthly payment",
         name = "totalPayment",
         example = "11000"
     )
-    val totalPayment: BigDecimal,
+    val totalPayment: BigDecimal? = null,
 
     @field:Schema(
         description = "the amount of the interest payment",
         name = "interestPayment",
         example = "1200"
     )
-    val interestPayment: BigDecimal,
+    val interestPayment: BigDecimal? = null,
 
     @field:Schema(
         description = "the amount to repay the loan body",
         name = "debtPayment",
         example = "5785"
     )
-    val debtPayment: BigDecimal,
+    val debtPayment: BigDecimal? = null,
 
     @field:Schema(
         description = "remaining debt",
         name = "remainingDebt",
         example = "235367"
     )
-    val remainingDebt: BigDecimal
+    val remainingDebt: BigDecimal? = null
 )

@@ -17,7 +17,7 @@ data class LoanApplicationRequestDTO(
         example = "10000"
     )
     @field:DecimalMin(value = "10000.0", message = "must be greater or equal than 10000")
-    val amount: BigDecimal,
+    val amount: BigDecimal? = null,
 
     @field:Schema(
         description = "loan term",
@@ -25,7 +25,7 @@ data class LoanApplicationRequestDTO(
         example = "4"
     )
     @field:Min(value = 6, message = "must be greater or equal than 6")
-    val term: Int,
+    val term: Int? = null,
 
     @field:Schema(
         description = "first name of person",
@@ -34,7 +34,7 @@ data class LoanApplicationRequestDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val firstName: String,
+    val firstName: String? = null,
 
     @field:Schema(
         description = "last name of person",
@@ -43,7 +43,7 @@ data class LoanApplicationRequestDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val lastName: String,
+    val lastName: String? = null,
 
     @field:Schema(
         description = "middle name of person",
@@ -52,7 +52,7 @@ data class LoanApplicationRequestDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val middleName: String,
+    val middleName: String? = null,
 
     @field:Schema(
         description = "email of person",
@@ -60,7 +60,7 @@ data class LoanApplicationRequestDTO(
         example = "taratonovv8@bk.ru"
     )
     @field:Pattern(regexp = "[\\w\\.]{2,50}@[\\w\\.]{2,20}", message = "doesn't match the right format")
-    val email: String,
+    val email: String? = null,
 
     @field:Schema(
         description = "birthday of person",
@@ -68,7 +68,7 @@ data class LoanApplicationRequestDTO(
         example = "2001-10-02"
     )
     @field:DateTimeFormat(pattern = "yyyy-MM-dd")
-    val birthdate: LocalDate,
+    val birthdate: LocalDate? = null,
 
     @field:Schema(
         description = "passport series of person",
@@ -77,7 +77,7 @@ data class LoanApplicationRequestDTO(
     )
     @field:Pattern(regexp = "\\d+", message = "must include only numbers")
     @field:Size(min = 4, max = 4, message = "must be 4 digits long")
-    val passportSeries: String,
+    val passportSeries: String? = null,
 
     @field:Schema(
         description = "passport number of person",
@@ -86,10 +86,10 @@ data class LoanApplicationRequestDTO(
     )
     @field:Pattern(regexp = "\\d+", message = "must include only numbers")
     @field:Size(min = 6, max = 6, message = "must be 6 digits long")
-    val passportNumber: String
+    val passportNumber: String? = null
 ) {
     @AssertTrue(message = "must be no later than 18 years from the current day")
     fun isBirthDateValid(): Boolean {
-        return !birthdate.plusYears(18).isAfter(LocalDate.now())
+        return !(birthdate?.plusYears(18)?.isAfter(LocalDate.now()) ?: true)
     }
 }

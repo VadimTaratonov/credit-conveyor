@@ -9,3 +9,6 @@ insurance:
 salary:
     rate:
         reduction: 1
+text:
+    invalidValue: "Invalid value"
+    nonNull: "Should not be null"

@@ -24,7 +24,7 @@ data class ScoringDataDTO(
         example = "10000"
     )
     @field:DecimalMin(value = "10000.0", message = "must be greater or equal than 10000")
-    val amount: BigDecimal,
+    val amount: BigDecimal? = null,
 
     @field:Schema(
         description = "loan term",
@@ -32,7 +32,7 @@ data class ScoringDataDTO(
         example = "7"
     )
     @field:Min(value = 6, message = "can't take loan less than 6 month")
-    val term: Int,
+    val term: Int? = null,
 
     @field:Schema(
         description = "first name of person",
@@ -41,7 +41,7 @@ data class ScoringDataDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val firstName: String,
+    val firstName: String? = null,
 
     @field:Schema(
         description = "last name of person",
@@ -50,7 +50,7 @@ data class ScoringDataDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val lastName: String,
+    val lastName: String? = null,
 
     @field:Schema(
         description = "middle name of person",
@@ -59,14 +59,14 @@ data class ScoringDataDTO(
     )
     @field:Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "must include only letters")
     @field:Size(min = 2, max = 30, message = "must be in range from 2 to 30 symbols")
-    val middleName: String,
+    val middleName: String? = null,
 
     @field:Schema(
         description = "person's gender",
         name = "gender",
         example = "MALE"
     )
-    val gender: Gender,
+    val gender: Gender? = null,
 
     @field:Schema(
         description = "birthday of person",
@@ -74,7 +74,7 @@ data class ScoringDataDTO(
         example = "2001-10-02"
     )
     @field:DateTimeFormat(pattern = "yyyy-MM-dd")
-    val birthdate: LocalDate,
+    val birthdate: LocalDate? = null,
 
     @field:Schema(
         description = "passport series of person",
@@ -83,7 +83,7 @@ data class ScoringDataDTO(
     )
     @field:Pattern(regexp = "\\d+", message = "must include only numbers")
     @field:Size(min = 4, max = 4, message = "must be 4 digits long")
-    val passportSeries: String,
+    val passportSeries: String? = null,
 
     @field:Schema(
         description = "passport number of person",
@@ -92,7 +92,7 @@ data class ScoringDataDTO(
     )
     @field:Pattern(regexp = "\\d+", message = "must include only numbers")
     @field:Size(min = 6, max = 6, message = "must be 6 digits long")
-    val passportNumber: String,
+    val passportNumber: String? = null,
 
     @field:Schema(
         description = "date of issue of the passport",
@@ -100,21 +100,21 @@ data class ScoringDataDTO(
         example = "2010-01-01"
     )
     @field:DateTimeFormat(pattern = "yyyy-MM-dd")
-    val passportIssueDate: LocalDate,
+    val passportIssueDate: LocalDate? = null,
 
     @field:Schema(
         description = "passport issuing department",
         name = "passportIssueBranch",
         example = "ГУ МВД РОССИИ"
     )
-    val passportIssueBranch: String,
+    val passportIssueBranch: String? = null,
 
     @field:Schema(
         description = "person's marital status",
         name = "maritalStatus",
         example = "MARRIED"
     )
-    val maritalStatus: MaritalStatus,
+    val maritalStatus: MaritalStatus? = null,
 
     @field:Schema(
         description = "number of dependents",
@@ -122,28 +122,28 @@ data class ScoringDataDTO(
         example = "1"
     )
     @field:Min(value = 0, message = "must be greater or equal than 0")
-    val dependentAmount: Int,
+    val dependentAmount: Int? = null,
 
     @field:Schema(
         description = "information about person at work",
         name = "employment"
     )
     @field:Valid
-    val employment: EmploymentDTO,
+    val employment: EmploymentDTO? = null,
 
     @field:Schema(
         description = "person's account",
         name = "account",
         example = "124353"
     )
-    val account: String,
+    val account: String? = null,
 
     @field:Schema(
         description = "availability of credit insurance",
         name = "isInsuranceEnabled",
         example = "false"
     )
-    val isInsuranceEnabled: Boolean,
+    val isInsuranceEnabled: Boolean? = null,
 
     @field:Schema(
         description = "salary client",
@@ -151,5 +151,5 @@ data class ScoringDataDTO(
         example = "true"
     )
     @field:NotNull(message = "must not be empty")
-    val isSalaryClient: Boolean
+    val isSalaryClient: Boolean? = null
 )

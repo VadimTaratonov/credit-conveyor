@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import ru.taratonov.conveyor.dto.CreditDTO
 import ru.taratonov.conveyor.dto.PaymentScheduleElement
 import ru.taratonov.conveyor.dto.ScoringDataDTO
+import ru.taratonov.conveyor.util.error
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
@@ -15,7 +16,8 @@ import java.util.*
 @Service
 class CreditCalculationServiceImpl(
     @Value("\${insurance.percentage}") private val INSURANCE_PERCENTAGE: BigDecimal,
-    @Value("Invalid value") private val INVALID_VALUE: String
+    @Value("\${text.invalidValue}") private val INVALID_VALUE: String,
+    @Value("\${text.nonNull}") private val NON_VALUE: String
 ) : CreditCalculationService {
 
     private val calendar: Calendar = Calendar.getInstance()
@@ -25,8 +27,12 @@ class CreditCalculationServiceImpl(
     override fun calculateLoanParameters(scoringData: ScoringDataDTO, newRate: BigDecimal): CreditDTO {
         checkArgumentsOfLoan(rate = newRate)
 
-        val amount = calculateTotalAmount(scoringData.amount, scoringData.isInsuranceEnabled)
-        val term = scoringData.term
+        val isInsuranceEnabled = scoringData.isInsuranceEnabled ?: error(NON_VALUE)
+        val amount = calculateTotalAmount(
+            scoringData.amount ?: error(NON_VALUE),
+            isInsuranceEnabled
+        )
+        val term = scoringData.term ?: error(NON_VALUE)
         val paymentSchedule = calculatePaymentSchedule(amount, newRate, term)
 
         return CreditDTO(
@@ -35,8 +41,8 @@ class CreditCalculationServiceImpl(
             calculateMonthlyPayment(amount, newRate, term),
             newRate,
             calculatePSK(amount, term, paymentSchedule),
-            scoringData.isInsuranceEnabled,
-            scoringData.isSalaryClient,
+            isInsuranceEnabled,
+            scoringData.isSalaryClient ?: error(NON_VALUE),
             paymentSchedule
         )
     }
@@ -115,7 +121,7 @@ class CreditCalculationServiceImpl(
 
         val yearTerm = BigDecimal.valueOf(term.toLong()).divide(BigDecimal.valueOf(12), 2, RoundingMode.CEILING)
         var totalAmount = scheduleElements
-            .map(PaymentScheduleElement::totalPayment)
+            .map { it.totalPayment ?: error(NON_VALUE) }
             .reduce { x, y -> x.add(y) }
 
         totalAmount = totalAmount

@@ -25,6 +25,7 @@
         <kotlin.logging.jvm>3.0.5</kotlin.logging.jvm>
         <logback.classic.version>1.4.11</logback.classic.version>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <mockk.version>1.13.9</mockk.version>
     </properties>
     <dependencies>
         <!--        kotlin-->
@@ -114,6 +115,16 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.classic.version}</version>
         </dependency>
+
+        <!-- Библиотека для мокинга -->
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk-jvm</artifactId>
+            <version>${mockk.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
