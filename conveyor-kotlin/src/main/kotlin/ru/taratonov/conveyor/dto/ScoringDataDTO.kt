@@ -7,16 +7,12 @@ import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
-import lombok.Builder
-import lombok.Data
 import org.springframework.format.annotation.DateTimeFormat
 import ru.taratonov.conveyor.enums.Gender
 import ru.taratonov.conveyor.enums.MaritalStatus
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@Builder
-@Data
 data class ScoringDataDTO(
     @field:Schema(
         description = "the amount requested by the client",

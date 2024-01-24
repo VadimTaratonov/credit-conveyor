@@ -3,21 +3,17 @@ package ru.taratonov.conveyor.dto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Pattern
-import lombok.Builder
-import lombok.Data
 import ru.taratonov.conveyor.enums.EmploymentStatus
 import ru.taratonov.conveyor.enums.Position
 import java.math.BigDecimal
 
-@Builder
-@Data
 data class EmploymentDTO(
     @field:Schema(
         description = "person's working status",
         name = "employmentStatus",
         example = "SELF_EMPLOYED"
     )
-     val employmentStatus: EmploymentStatus? = null,
+    val employmentStatus: EmploymentStatus? = null,
 
     @field:Schema(
         description = "persons inn",
@@ -28,7 +24,7 @@ data class EmploymentDTO(
         regexp = "^(\\d{10}|\\d{12})$",
         message = "must include only 12 numbers for individuals and 10 to legal entities"
     )
-     val employerINN: String? = null,
+    val employerINN: String? = null,
 
     @field:Schema(
         description = "persons salary",
@@ -36,14 +32,14 @@ data class EmploymentDTO(
         example = "12000"
     )
     @field:Min(value = 0, message = "can't be less than 0")
-     val salary: BigDecimal? = null,
+    val salary: BigDecimal? = null,
 
     @field:Schema(
         description = "the user's position on the job",
         name = "position",
         example = "MANAGER"
     )
-     val position: Position? = null,
+    val position: Position? = null,
 
     @field:Schema(
         description = "total work experience of person",
@@ -51,7 +47,7 @@ data class EmploymentDTO(
         example = "12"
     )
     @field:Min(value = 0)
-     val workExperienceTotal: Int? = null,
+    val workExperienceTotal: Int? = null,
 
     @field:Schema(
         description = "current work experience of person in job",
@@ -59,5 +55,5 @@ data class EmploymentDTO(
         example = "5"
     )
     @field:Min(value = 0)
-     val workExperienceCurrent: Int? = null
+    val workExperienceCurrent: Int? = null
 )

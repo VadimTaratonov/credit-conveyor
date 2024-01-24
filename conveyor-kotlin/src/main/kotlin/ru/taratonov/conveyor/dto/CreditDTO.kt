@@ -1,12 +1,8 @@
 package ru.taratonov.conveyor.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import lombok.Builder
-import lombok.Data
 import java.math.BigDecimal
 
-@Builder
-@Data
 data class CreditDTO(
     @field:Schema(
         description = "amount of the loan",

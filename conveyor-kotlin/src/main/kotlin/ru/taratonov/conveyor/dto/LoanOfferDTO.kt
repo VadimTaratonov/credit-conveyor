@@ -3,12 +3,8 @@ package ru.taratonov.conveyor.dto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Min
-import lombok.Builder
-import lombok.Data
 import java.math.BigDecimal
 
-@Builder
-@Data
 data class LoanOfferDTO(
     @field:Schema(
         description = "id of application",

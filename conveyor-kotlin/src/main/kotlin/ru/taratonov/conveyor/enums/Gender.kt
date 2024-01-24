@@ -1,12 +1,8 @@
 package ru.taratonov.conveyor.enums
 
 import com.fasterxml.jackson.annotation.JsonCreator
-import lombok.AllArgsConstructor
-import lombok.Getter
 import ru.taratonov.conveyor.exception.IllegalArgumentOfEnumException
 
-@AllArgsConstructor
-@Getter
 enum class Gender(private val title: String) {
     MALE("male"),
     FEMALE("female"),

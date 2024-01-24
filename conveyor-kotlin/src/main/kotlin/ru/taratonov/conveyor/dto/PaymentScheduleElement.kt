@@ -1,13 +1,9 @@
 package ru.taratonov.conveyor.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import lombok.Builder
-import lombok.Data
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@Data
-@Builder
 data class PaymentScheduleElement(
     @field:Schema(
         description = "payment number",

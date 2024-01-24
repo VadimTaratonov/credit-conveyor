@@ -1,15 +1,16 @@
 package ru.taratonov.conveyor.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.validation.constraints.*
-import lombok.Builder
-import lombok.Data
+import jakarta.validation.constraints.AssertTrue
+import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 import org.springframework.format.annotation.DateTimeFormat
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@Builder
-@Data
+
 data class LoanApplicationRequestDTO(
     @field:Schema(
         description = "the amount requested by the client",
