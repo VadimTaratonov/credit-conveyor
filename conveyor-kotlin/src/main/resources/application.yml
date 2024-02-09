@@ -1,14 +1,15 @@
 server:
     port: 8080
-base:
-    rate: 8
-insurance:
-    percentage: 10
-    rate:
-        reduction: 3
-salary:
-    rate:
-        reduction: 1
-text:
-    invalidValue: "Invalid value"
-    nonNull: "Should not be null"
+custom:
+    base:
+        rate: 8
+    insurance:
+        percentage: 10
+        rate:
+            reduction: 3
+    salary:
+        rate:
+            reduction: 1
+    text:
+        invalidValue: "Invalid value"
+        nonNull: "Should not be null"

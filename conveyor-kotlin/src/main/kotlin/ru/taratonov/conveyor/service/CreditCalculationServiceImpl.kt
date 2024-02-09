@@ -15,15 +15,18 @@ import java.util.*
 
 @Service
 class CreditCalculationServiceImpl(
-    @Value("\${insurance.percentage}") private val INSURANCE_PERCENTAGE: BigDecimal,
-    @Value("\${text.invalidValue}") private val INVALID_VALUE: String,
-    @Value("\${text.nonNull}") private val NON_VALUE: String
+    @Value("\${custom.insurance.percentage}") private val INSURANCE_PERCENTAGE: BigDecimal,
+    @Value("\${custom.text.invalidValue}") private val INVALID_VALUE: String,
+    @Value("\${custom.text.nonNull}") private val NON_VALUE: String
 ) : CreditCalculationService {
 
     private val calendar: Calendar = Calendar.getInstance()
 
     private val logger = KotlinLogging.logger { }
 
+    /**
+     * Вычисление необходимых полей для заявки клиента
+     **/
     override fun calculateLoanParameters(scoringData: ScoringDataDTO, newRate: BigDecimal): CreditDTO {
         checkArgumentsOfLoan(rate = newRate)
 
@@ -36,17 +39,27 @@ class CreditCalculationServiceImpl(
         val paymentSchedule = calculatePaymentSchedule(amount, newRate, term)
 
         return CreditDTO(
-            amount,
-            term,
-            calculateMonthlyPayment(amount, newRate, term),
-            newRate,
-            calculatePSK(amount, term, paymentSchedule),
-            isInsuranceEnabled,
-            scoringData.isSalaryClient ?: error(NON_VALUE),
-            paymentSchedule
+            amount = amount,
+            term = term,
+            monthlyPayment = calculateMonthlyPayment(amount, newRate, term),
+            rate = newRate,
+            psk = calculatePSK(amount, term, paymentSchedule),
+            isInsuranceEnabled = isInsuranceEnabled,
+            isSalaryClient = scoringData.isSalaryClient ?: error(NON_VALUE),
+            paymentSchedule = paymentSchedule
         )
     }
 
+    /**
+     * Вычисление ежемесячного платежа
+     * ЕП = СК * КА
+     * ЕП - ежемесячный платеж
+     * СК - сумма кредита
+     * КА - коэффициент аннуитета
+     * КА = (МПС * (1 + МПС)^КП)/((1 + МПС)^КП - 1)
+     * МПС - месячная процентная ставка
+     * КП - количество платежей
+     */
     override fun calculateMonthlyPayment(amount: BigDecimal, rate: BigDecimal, term: Int): BigDecimal {
         logger.debug("!START CALCULATE MONTHLY PAYMENT WITH AMOUNT - {}, RATE - {}, TERM - {}!", amount, rate, term)
 
@@ -75,6 +88,9 @@ class CreditCalculationServiceImpl(
         return monthlyPayment
     }
 
+    /**
+     * Вычисление графиков платежей
+     * */
     override fun calculatePaymentSchedule(
         amount: BigDecimal,
         rate: BigDecimal,
@@ -112,6 +128,14 @@ class CreditCalculationServiceImpl(
         return paymentSchedule
     }
 
+    /**
+     * Вычисление ПСК
+     * ПСК = (СП / СК - 1) / N
+     * ПСК - полная стоимость кредита
+     * СП - сумма платежей
+     * СК - сумма кредита
+     * N - продолжительность кредита в годах
+     */
     override fun calculatePSK(
         amount: BigDecimal,
         term: Int,
@@ -141,6 +165,13 @@ class CreditCalculationServiceImpl(
         return psk
     }
 
+    /**
+     * Вычисление полной стоимости кредита с учетом страховки
+     * ПС = СК + СС
+     * ПС - полная стоимость
+     * СК - сумма кредита
+     * СС - сумма страховки
+     */
     override fun calculateTotalAmount(amount: BigDecimal, isInsuranceEnabled: Boolean): BigDecimal {
         logger.debug(
             "!START CALCULATE BASE TOTAL AMOUNT WITH AMOUNT - {}, isInsuranceEnabled - {}!",

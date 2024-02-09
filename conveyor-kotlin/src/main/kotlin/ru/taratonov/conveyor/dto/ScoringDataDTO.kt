@@ -27,7 +27,7 @@ data class ScoringDataDTO(
         name = "term",
         example = "7"
     )
-    @field:Min(value = 6, message = "can't take loan less than 6 month")
+    @field:Min(value = 6, message = "can't less than 6 month")
     val term: Int? = null,
 
     @field:Schema(

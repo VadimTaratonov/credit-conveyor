@@ -11,7 +11,7 @@ import ru.taratonov.conveyor.util.error
 class OfferServiceImpl(
     private val creditCalculationService: CreditCalculationService,
     private val scoringService: ScoringService,
-    @Value("\${text.nonNull}") private val NON_VALUE: String
+    @Value("\${custom.text.nonNull}") private val NON_VALUE: String
 ) : OfferService {
 
     private val logger = KotlinLogging.logger { }
@@ -42,14 +42,14 @@ class OfferServiceImpl(
         val totalAmount = creditCalculationService.calculateTotalAmount(amount, isInsuranceEnabled)
 
         val loanOfferDTO = LoanOfferDTO(
-            0L,
-            amount,
-            totalAmount,
-            term,
-            creditCalculationService.calculateMonthlyPayment(totalAmount, rate, term),
-            rate,
-            isInsuranceEnabled,
-            isSalaryClient
+            applicationId = 0L,
+            requestedAmount = amount,
+            totalAmount = totalAmount,
+            term = term,
+            monthlyPayment = creditCalculationService.calculateMonthlyPayment(totalAmount, rate, term),
+            rate = rate,
+            isInsuranceEnabled = isInsuranceEnabled,
+            isSalaryClient = isSalaryClient
         )
 
         logger.info(
