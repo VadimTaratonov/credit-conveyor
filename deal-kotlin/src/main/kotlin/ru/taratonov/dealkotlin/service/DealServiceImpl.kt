@@ -27,7 +27,7 @@ class DealServiceImpl(
     private val applicationRepository: ApplicationRepository,
     private val creditRepository: CreditRepository,
     private val restTemplateRequestsService: RestTemplateRequestsService,
-    private val fillingDataServiceImpl: FillingDataServiceImpl,
+    private val fillingDataService: FillingDataService,
     private val documentKafkaService: DocumentKafkaService,
     @Value("\${text.nonNull}") private val NOT_NULL: String
 ) : DealService {
@@ -40,7 +40,7 @@ class DealServiceImpl(
             loanApplicationRequest.firstName, loanApplicationRequest.lastName
         )
 
-        val client = fillingDataServiceImpl.createClientOfRequest(loanApplicationRequest)
+        val client = fillingDataService.createClientOfRequest(loanApplicationRequest)
 
         try {
             clientRepository.save(client)
@@ -55,7 +55,7 @@ class DealServiceImpl(
 
         logger.debug("client {} {} is saved", client.firstName, client.lastName)
 
-        var application = fillingDataServiceImpl.createApplicationOfRequest(client)
+        var application = fillingDataService.createApplicationOfRequest(client)
         application = applicationRepository.save(application)
         val applicationId = application.applicationId
         logger.debug("application with id= {} is saved", applicationId)
@@ -76,7 +76,7 @@ class DealServiceImpl(
         }
         var application = foundApplication.get()
         logger.info("application with id= {} received", application.applicationId)
-        application = fillingDataServiceImpl.updateApplicationWhenChooseOffer(application, loanOffer)
+        application = fillingDataService.updateApplicationWhenChooseOffer(application, loanOffer)
         applicationRepository.save(application)
         logger.debug("application with id= {} is updated", application.applicationId)
 
@@ -93,14 +93,14 @@ class DealServiceImpl(
         logger.info("application with id= {} received", application.applicationId)
         var client = application.client ?: nullException(NOT_NULL)
 
-        val scoringDataDTO = fillingDataServiceImpl
+        val scoringDataDTO = fillingDataService
             .fillAllInformationToScoringData(finishRegistrationRequest, client, application)
         logger.debug(
             "scoringDataDTO for {} {} is ready for calculating",
             scoringDataDTO.firstName, scoringDataDTO.lastName
         )
 
-        client = fillingDataServiceImpl.fillAllDataOfClient(client, finishRegistrationRequest)
+        client = fillingDataService.fillAllDataOfClient(client, finishRegistrationRequest)
         clientRepository.save(client)
         logger.debug("client {} {} is saved", client.firstName, client.lastName)
 
@@ -109,14 +109,14 @@ class DealServiceImpl(
             creditDTO = restTemplateRequestsService.requestToCalculateCredit(scoringDataDTO)
         } catch (e: IllegalDataFromOtherMsException) {
             application =
-                fillingDataServiceImpl.updateApplicationWithNewStatus(application, ApplicationStatus.CC_DENIED)
+                fillingDataService.updateApplicationWithNewStatus(application, ApplicationStatus.CC_DENIED)
             applicationRepository.save(application)
             documentKafkaService.sendMessage(application, Theme.APPLICATION_DENIED)
             logger.debug("application with id={} is saved", application.applicationId)
             throw e
         }
 
-        val credit = fillingDataServiceImpl.createCreditAfterCalculating(creditDTO, application)
+        val credit = fillingDataService.createCreditAfterCalculating(creditDTO, application)
         logger.info(
             "credit for {} {} with calculated",
             client.firstName, client.lastName
@@ -125,7 +125,7 @@ class DealServiceImpl(
         logger.debug("credit with id={} is saved", credit.creditId)
 
         application.credit = credit
-        application = fillingDataServiceImpl.updateApplicationWithNewStatus(application, ApplicationStatus.CC_APPROVED)
+        application = fillingDataService.updateApplicationWithNewStatus(application, ApplicationStatus.CC_APPROVED)
         applicationRepository.save(application)
         logger.debug("application with id={} is saved", application.applicationId)
 
