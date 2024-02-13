@@ -10,7 +10,7 @@ import java.math.BigDecimal
 class DependentAmountRule(
     @Value("\${custom.text.nonNull}") private val NON_VALUE: String
 ) : Rule {
-    override fun check(
+    override fun calculate(
         scoringRule: ScoringRuleDto,
         exceptions: MutableList<String>,
         personalRate: BigDecimal

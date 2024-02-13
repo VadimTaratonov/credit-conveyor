@@ -32,7 +32,7 @@ class ScoringServiceImpl(
         val scoringRule = scoringData.mapToScoringRule()
 
         for (rule in rules) {
-            personalRate = rule.check(scoringRule, exceptions, personalRate)
+            personalRate = rule.calculate(scoringRule, exceptions, personalRate)
         }
 
         logger.debug("!FINISH PERSON SCORING!")
