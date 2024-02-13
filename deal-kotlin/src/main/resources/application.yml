@@ -1,0 +1,39 @@
+custom:
+    integration:
+        conveyor:
+            calculate:
+                credit: http://localhost:8080/conveyor/calculation
+            get:
+                offers: http://localhost:8080/conveyor/offers
+server:
+    port: 8081
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: 1234
+        url: jdbc:postgresql://localhost:5432/deal_db
+        username: postgres
+    jackson:
+        serialization:
+            write-dates-as-timestamps: false
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                show_sql: true
+    kafka:
+        producer:
+            bootstrap-servers: localhost:9092
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    liquibase:
+        change-log: classpath:changelog/db.changelog-master.xml
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
+
+text:
+    nonNull: "Should not be null"
