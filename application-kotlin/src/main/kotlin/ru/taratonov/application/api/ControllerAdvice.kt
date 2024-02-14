@@ -31,6 +31,6 @@ class ControllerAdvice {
     @ExceptionHandler(IllegalDataFromOtherMsException::class)
     fun handleOtherException(ex: Exception): ErrorDto {
         logger.error("Handle Exception", ex)
-        return ErrorDto(ex.message ?: "error in Application API", LocalDateTime.now(), HttpStatus.BAD_REQUEST);
+        return ErrorDto(ex.message ?: "error in Application API", LocalDateTime.now(), HttpStatus.BAD_REQUEST)
     }
 }
