@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+custom:
+  integration:
+    deal:
+      url:
+        choose:
+          offer: http://localhost:8081/deal/offer
+        get:
+          offers: http://localhost:8081/deal/application
+  text:
+    nonNull: "Should not be null"
